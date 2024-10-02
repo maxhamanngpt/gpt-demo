@@ -16,22 +16,38 @@
     async function sendMessage() {
       const input = document.getElementById('input').value;
 
-      // Llama a la API de OpenAI
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer TU_API_KEY_AQUI'
-        },
-        body: JSON.stringify({
-          model: 'gpt-4',  // O 'gpt-3.5-turbo' según tu preferencia
-          messages: [{ role: 'user', content: input }],
-          max_tokens: 150
-        })
-      });
+      if (!input.trim()) {
+        alert('Por favor, escribe un mensaje.');
+        return;
+      }
 
-      const data = await response.json();
-      document.getElementById('response').innerText = data.choices[0].message.content;
+      // Muestra un mensaje de cargando
+      document.getElementById('response').innerText = 'Cargando...';
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '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' // Reemplaza con tu clave de API
+          },
+          body: JSON.stringify({
+            model: 'gpt-4', // O 'gpt-4' si tienes acceso
+            messages: [{ role: 'user', content: input }],
+            max_tokens: 150
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Error en la respuesta de la API.');
+        }
+
+        const data = await response.json();
+        document.getElementById('response').innerText = data.choices[0].message.content;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('response').innerText = 'Hubo un error al procesar la solicitud.';
+      }
     }
   </script>
 </body>
