@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat con GPT</title>
+  <title>GPT Chat</title>
 </head>
 <body>
-  <h1>Habla con GPT</h1>
+  <h1>Chat con GPT</h1>
   <textarea id="input" rows="4" cols="50" placeholder="Escribe tu mensaje aquí..."></textarea>
   <br>
   <button onclick="sendMessage()">Enviar</button>
@@ -29,17 +29,17 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer sk-svcacct-pK3ouGtnei_Bn6Jf2b6evIVbxJ3lNGndelOGGeG5nAE2zlkQ7pvh5uMdRMDGC1fT3BlbkFJnohFANHQuoXKTX6ge5sPu_m2UTkpjNyVLpXmZ6XMHILdRl-ZzoMdxZe9lJ-z7AA' // Reemplaza con tu clave de API
+            'Authorization': 'Bearer sk-svcacct-pK3ouGtnei_Bn6Jf2b6evIVbxJ3lNGndelOGGeG5nAE2zlkQ7pvh5uMdRMDGC1fT3BlbkFJnohFANHQuoXKTX6ge5sPu_m2UTkpjNyVLpXmZ6XMHILdRl-ZzoMdxZe9lJ-z7AA'  // Reemplaza con tu clave API de OpenAI
           },
           body: JSON.stringify({
-            model: 'gpt-4',
+            model: 'gpt-4',  // O gpt-4 si tienes acceso
             messages: [{ role: 'user', content: input }],
-            max_tokens: 150
+            max_tokens: 100
           })
         });
 
         if (!response.ok) {
-          throw new Error('Error en la respuesta de la API.');
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
