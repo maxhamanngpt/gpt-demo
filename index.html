@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente Chatbot</title>
+    <title>Asistente Chatbot con OpenAI</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        #chatbox { max-width: 600px; margin: 0 auto; }
-        #chatInput { width: 100%; padding: 10px; margin: 10px 0; }
-        #output { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background-color: #f9f9f9; }
-        .userMessage { color: blue; }
-        .botMessage { color: green; }
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f0f0f0; }
+        #chatbox { max-width: 600px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        #chatInput { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        #output { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background-color: #fff; margin-bottom: 10px; }
+        .userMessage { color: blue; margin-bottom: 10px; }
+        .botMessage { color: green; margin-bottom: 10px; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
     </style>
 </head>
 <body>
@@ -24,6 +26,45 @@
     </form>
 </div>
 
-<script src="script.js"></script>
+<script>
+document.getElementById('chatForm').onsubmit = async function(event) {
+    event.preventDefault();
+
+    // Captura el mensaje del usuario
+    const userInput = document.getElementById('chatInput').value;
+    document.getElementById('chatInput').value = '';  // Limpiar el campo de entrada
+
+    // Mostrar el mensaje del usuario en la interfaz
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML += `<p class="userMessage"><strong>Tú:</strong> ${userInput}</p>`;
+
+    // Enviar solicitud a la API de OpenAI
+    const apiKey = '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';  // Reemplaza con tu clave API
+    const apiUrl = 'https://api.openai.com/v1/completions';
+
+    const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: 'text-davinci-003',
+            prompt: userInput,
+            max_tokens: 150
+        })
+    });
+
+    const data = await response.json();
+    const botReply = data.choices[0].text.trim();
+
+    // Mostrar la respuesta del asistente en la interfaz
+    outputDiv.innerHTML += `<p class="botMessage"><strong>Asistente:</strong> ${botReply}</p>`;
+
+    // Hacer scroll automático al final del cuadro de salida
+    outputDiv.scrollTop = outputDiv.scrollHeight;
+};
+</script>
+
 </body>
 </html>
