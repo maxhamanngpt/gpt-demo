@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GPT Chat</title>
+  <title>OPI Chat</title>
 </head>
 <body>
-  <h1>Chat con GPT</h1>
-  <textarea id="input" rows="4" cols="50" placeholder="Escribe tu mensaje aquí..."></textarea>
+  <h1>Conozca en detalle la normativa europea sobre Inteligencia Artificial</h1>
+  <textarea id="input" rows="4" cols="50" placeholder="Escriba su consulta aquí..."></textarea>
   <br>
   <button onclick="sendMessage()">Enviar</button>
   <p id="response"></p>
@@ -17,7 +17,7 @@
       const input = document.getElementById('input').value;
 
       if (!input.trim()) {
-        alert('Por favor, escribe un mensaje.');
+        alert('Por favor, escriba un consulta.');
         return;
       }
 
