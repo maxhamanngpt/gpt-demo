@@ -1,54 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OPI Chat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #chatbox { max-width: 600px; margin: 0 auto; }
+        #chatInput { width: 100%; padding: 10px; margin: 10px 0; }
+        #output { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background-color: #f9f9f9; }
+        .userMessage { color: blue; }
+        .botMessage { color: green; }
+    </style>
 </head>
 <body>
-  <h2>Conozca en detalle la normativa europea sobre Inteligencia Artificial</h2>
-  <textarea id="input" rows="4" cols="50" placeholder="Escriba su consulta aquí..."></textarea>
-  <br>
-  <button onclick="sendMessage()">Enviar</button>
-  <p id="response"></p>
 
-  <script>
-    async function sendMessage() {
-      const input = document.getElementById('input').value;
+<div id="chatbox">
+    <h2>Asistente IA</h2>
+    <div id="output"></div>
+    <form id="chatForm">
+        <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." required />
+        <button type="submit">Enviar</button>
+    </form>
+</div>
 
-      if (!input.trim()) {
-        alert('Por favor, escriba un consulta.');
-        return;
-      }
-
-      // Muestra un mensaje de cargando
-      document.getElementById('response').innerText = 'Cargando...';
-
-      try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer sk-svcacct-pK3ouGtnei_Bn6Jf2b6evIVbxJ3lNGndelOGGeG5nAE2zlkQ7pvh5uMdRMDGC1fT3BlbkFJnohFANHQuoXKTX6ge5sPu_m2UTkpjNyVLpXmZ6XMHILdRl-ZzoMdxZe9lJ-z7AA'  // Reemplaza con tu clave API de OpenAI
-          },
-          body: JSON.stringify({
-            model: 'gpt-4',  // O gpt-4 si tienes acceso
-            messages: [{ role: 'user', content: input }],
-            max_tokens: 100
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        document.getElementById('response').innerText = data.choices[0].message.content;
-      } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('response').innerText = 'Hubo un error al procesar la solicitud.';
-      }
-    }
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
